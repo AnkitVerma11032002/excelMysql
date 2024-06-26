@@ -2,7 +2,7 @@ const {DataTypes} = require('sequelize');
 const sequelize =   require('../uitls/db');
 
 const User = sequelize.define('user',{
-    id:{
+    user_id:{
         type:DataTypes.INTEGER,
         autoIncrement:true,
         primaryKey:true
@@ -10,7 +10,7 @@ const User = sequelize.define('user',{
     email:{
         type:DataTypes.STRING
     },
-    password:{
+    password_hash:{
         type:DataTypes.STRING
     },
     role:{

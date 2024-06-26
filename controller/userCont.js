@@ -10,11 +10,12 @@ exports.loginUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password_hash);
     if (!isMatch) {
       return res.status(401).json({ error: 'Invalid credentials' });
     };
     const token = generateToken({ email: user.email, role: user.role , password: user.password, id: user.id});
+    console.log(user)
     res.status(200).json({ message: 'Login successful', token,user });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -48,7 +49,7 @@ exports.createUser = async (req, res) => {
   const { email, password, role } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, password: hashedPassword, role });
+    const user = await User.create({ email, password_hash: hashedPassword, role });
     res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
